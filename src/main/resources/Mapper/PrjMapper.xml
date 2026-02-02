@@ -20,3 +20,5 @@
         where a.eff_end_dt = '99991231'
     </select>
 </mapper>
+
+
