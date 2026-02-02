@@ -1,3 +1,18 @@
 spring:
   application:
     name: ipms
+
+  datasource:
+    # Supabase 대시보드에서 복사한 JDBC URL
+    url: jdbc:postgresql://zoisytihyzcbvbwghmzr:5432/postgres
+    driver-class-name: org.postgresql.Driver
+    username: postgres.zoisytihyzcbvbwghmzr
+    password: "L1fmF5nV50xV6HZ7"
+
+
+# MyBatis 설정
+mybatis:
+  mapper-locations: "classpath:mapper/**/*.xml" # XML 매퍼 파일 위치
+  configuration:
+    map-underscore-to-camel-case: true          # DB의 snake_case를 Java의 camelCase로 자동 매핑
+  type-aliases-package: com.jjong.member.model  # 본인의 DTO/Model 패키지 경로에 맞게 수정

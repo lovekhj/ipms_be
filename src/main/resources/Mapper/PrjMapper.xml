@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.ipmsprj.ipms.prj.repository.PrjMapper">
+
+    <select id="getPrjList" resultType="">
+        select
+                a.prj_id
+                , a.prj_nm
+                , a.prj_gbn
+                , a.prj_str_dt
+                , a.prj_end_dt
+                , a.prj_sts_cd
+                , a.prj_desc
+                , a.office_loc
+                , a.biz_prtnr
+        from project_list a
+        where a.eff_end_dt = '99991231'
+    </select>
+</mapper>
+
+
