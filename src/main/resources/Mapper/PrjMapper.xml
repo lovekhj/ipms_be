@@ -7,15 +7,35 @@
 
     <select id="getPrjList" resultType="com.ipmsprj.ipms.prj.dto.PrjDto">
         select
-                a.prj_id
+                ROW_NUMBER() OVER (ORDER BY prj_id) AS row_num
+                , a.prj_id
                 , a.prj_nm
                 , a.prj_gbn
+                , (SELECT cd_val_nm
+                    from comm_cd_dtl
+                    where grp_cd = 'PRJ_GBN'
+                    and a.prj_gbn = cd_val
+                    and eff_end_dt = '99991231') as prj_gbn_nm
                 , a.prj_str_dt
                 , a.prj_end_dt
                 , a.prj_sts_cd
+                , (SELECT cd_val_nm
+                    from comm_cd_dtl
+                    where grp_cd = 'PRJ_STS_CD'
+                    and a.prj_sts_cd = cd_val
+                    and eff_end_dt = '99991231') as prj_sts_nm
                 , a.prj_desc
                 , a.office_loc
+                , (SELECT cd_val_nm
+                    from comm_cd_dtl
+                    where grp_cd = 'OFFICE_LOC'
+                    and a.office_loc = cd_val
+                    and eff_end_dt = '99991231') as office_loc_nm
                 , a.biz_prtnr
+                , (SELECT biz_prtnr_nm
+                    from biz_prtnr
+                    where a.biz_prtnr = biz_prtnr
+                    and eff_end_dt = '99991231') as biz_prtnr_nm
         from project_list a
         where a.eff_end_dt = '99991231'
     </select>
