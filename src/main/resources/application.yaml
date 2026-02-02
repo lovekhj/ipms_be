@@ -4,15 +4,15 @@ spring:
 
   datasource:
     # Supabase 대시보드에서 복사한 JDBC URL
-    url: jdbc:postgresql://zoisytihyzcbvbwghmzr:5432/postgres
+    url: jdbc:postgresql://aws-1-ap-south-1.pooler.supabase.com:6543/postgres
     driver-class-name: org.postgresql.Driver
     username: postgres.zoisytihyzcbvbwghmzr
-    password: "L1fmF5nV50xV6HZ7"
+    password: "dlatl001!@#"
 
 
 # MyBatis 설정
 mybatis:
-  mapper-locations: "classpath:mapper/**/*.xml" # XML 매퍼 파일 위치
+  mapper-locations: classpath:Mapper/**/*.xml # XML 매퍼 파일 위치 (대소문자 주의)
   configuration:
     map-underscore-to-camel-case: true          # DB의 snake_case를 Java의 camelCase로 자동 매핑
-  type-aliases-package: com.jjong.member.model  # 본인의 DTO/Model 패키지 경로에 맞게 수정
+  type-aliases-package: com.ipmsprj.ipms        # 프로젝트 패키지 경로로 수정함

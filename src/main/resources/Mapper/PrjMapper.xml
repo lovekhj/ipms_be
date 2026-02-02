@@ -5,7 +5,7 @@
 
 <mapper namespace="com.ipmsprj.ipms.prj.repository.PrjMapper">
 
-    <select id="getPrjList" resultType="">
+    <select id="getPrjList" resultType="com.ipmsprj.ipms.prj.dto.PrjDto">
         select
                 a.prj_id
                 , a.prj_nm
@@ -20,7 +20,3 @@
         where a.eff_end_dt = '99991231'
     </select>
 </mapper>
-
-
-
-
