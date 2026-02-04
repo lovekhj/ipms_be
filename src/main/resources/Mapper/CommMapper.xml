@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.ipmsprj.ipms.com.repository.CommMapper">
+
+    <!--
+        getCommCdList: 공통 코드 목록 조회
+        입력받은 그룹 코드 리스트(grpCdList)에 해당하는 공통 코드 정보를 조회합니다.
+        grp_cd, cd_val, cd_val_nm 컬럼을 조회하며, eff_end_dt가 '99991231'인 유효한 코드만 조회합니다.
+    -->
+    <select id="getCommCdList" parameterType="java.util.List" resultType="com.ipmsprj.ipms.com.dto.CommCdDto">
+        SELECT
+            grp_cd,
+            cd_val,
+            cd_val_nm
+        FROM comm_cd_dtl
+        WHERE eff_end_dt = '99991231'
+        <if test="list != null and list.size() > 0">
+            AND grp_cd IN
+            <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        ORDER BY grp_cd, cd_val
+    </select>
+
+</mapper>

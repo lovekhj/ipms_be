@@ -1,6 +1,7 @@
 package com.ipmsprj.ipms.prj.service;
 
 import com.ipmsprj.ipms.prj.dto.PrjDto;
+import com.ipmsprj.ipms.prj.dto.PrjReqDto;
 import com.ipmsprj.ipms.prj.repository.PrjMapper;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -14,7 +15,7 @@ public class PrjService {
         this.prjMapper = prjMapper;
     }
 
-    public List<PrjDto> getPrjList() {
-        return prjMapper.getPrjList();
+    public List<PrjDto> getPrjList(PrjReqDto prjReqDto) {
+        return prjMapper.getPrjList(prjReqDto);
     }
 }

@@ -5,7 +5,9 @@
 
 <mapper namespace="com.ipmsprj.ipms.prj.repository.PrjMapper">
 
-    <select id="getPrjList" resultType="com.ipmsprj.ipms.prj.dto.PrjDto">
+    <select id="getPrjList"
+            parameterType="com.ipmsprj.ipms.prj.dto.PrjReqDto"
+            resultType="com.ipmsprj.ipms.prj.dto.PrjDto">
         select
                 ROW_NUMBER() OVER (ORDER BY prj_id) AS row_num
                 , a.prj_id
@@ -38,7 +40,44 @@
                     and eff_end_dt = '99991231') as biz_prtnr_nm
         from project_list a
         where a.eff_end_dt = '99991231'
+        <!-- 프로젝트 명 검색 (LIKE 검색) -->
+        <!-- prjNm 값이 null이 아니고 빈 문자열이 아닐 경우 실행 -->
+        <if test="prjNm != null and prjNm != ''">
+            AND a.prj_nm LIKE CONCAT('%', #{prjNm}, '%')
+        </if>
+        <!-- 프로젝트 구분 검색 -->
+        <if test="prjGbn != null and prjGbn != ''">
+            AND a.prj_gbn = #{prjGbn}
+        </if>
+
+        <!-- 프로젝트 기간 검색 -->
+        <!-- 입력받은 시작일(prjStrDt)이 프로젝트 기간(시작일~종료일) 사이에 있거나 -->
+        <!-- 입력받은 종료일(prjEndDt)이 프로젝트 기간(시작일~종료일) 사이에 있는 경우 검색 -->
+        <!-- 두 조건 중 하나라도 만족하면 조회 (OR 조건) -->
+        <if test="(prjStrDt != null and prjStrDt != '') or (prjEndDt != null and prjEndDt != '')">
+            AND (
+            <trim prefixOverrides="OR">
+                <if test="prjStrDt != null and prjStrDt != ''">
+                    #{prjStrDt} BETWEEN a.prj_str_dt AND a.prj_end_dt
+                </if>
+                <if test="prjEndDt != null and prjEndDt != ''">
+                    OR #{prjEndDt} BETWEEN a.prj_str_dt AND a.prj_end_dt
+                </if>
+            </trim>
+            )
+        </if>
+
+        <!-- 프로젝트 상태 코드 검색 -->
+        <if test="prjStsCd != null and prjStsCd != ''">
+            AND a.prj_sts_cd = #{prjStsCd}
+        </if>
+        <!-- 근무지 위치 검색 -->
+        <if test="officeLoc != null and officeLoc != ''">
+            AND a.office_loc = #{officeLoc}
+        </if>
+        <!-- 협력사 검색 -->
+        <if test="bizPrtnr != null and bizPrtnr != ''">
+            AND a.biz_prtnr = #{bizPrtnr}
+        </if>
     </select>
 </mapper>
-
-
