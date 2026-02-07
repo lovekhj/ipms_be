@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.ipmsprj.ipms.mem.repository.MemMapper">
+
+    <select id="getMemLists"
+            parameterType="com.ipmsprj.ipms.mem.dto.MemReqDto"
+            resultType="com.ipmsprj.ipms.mem.dto.MemDto">
+        select
+                a.mem_id
+                , a.mem_nm
+                , a.mbr_type
+                , (SELECT cd_val_nm
+                    from comm_cd_dtl
+                    where grp_cd = 'MBR_TYPE'
+                    and a.mbr_type = cd_val
+                    and eff_end_dt = '99991231') as mbr_type_nm
+                , a.birth
+                , a.birth_gbn
+                , a.cell_phone_num
+                , a.gnrl_phone_num
+                , a.tech_grade
+        from  member a
+        where a.eff_end_dt = '99991231'
+            <if test="memNm != null and memNm != ''">
+                and a.mem_nm LIKE CONCAT('%', #{memNm}, '%')
+            </if>
+            <if test="mbrType != null and mbrType != ''">
+                and a.mbr_type = #{mbrType}
+            </if>
+            <if test="cellPhoneNum != null and cellPhoneNum != ''">
+                and a.cell_phone_num LIKE CONCAT('%', #{cellPhoneNum}, '%')
+            </if>
+    </select>
+
+</mapper>

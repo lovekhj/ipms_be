@@ -1,8 +1,12 @@
 package com.ipmsprj.ipms.prj.dto;
 
-import lombok.Data;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class PrjDto {
     private String rowNum;
     private String prjId;
