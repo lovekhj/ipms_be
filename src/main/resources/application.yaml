@@ -3,9 +3,9 @@ spring:
     name: ipms
 
   datasource:
-    # Supabase 대시보드에서 복사한 JDBC URL
-    url: jdbc:postgresql://aws-1-ap-south-1.pooler.supabase.com:6543/postgres
-    driver-class-name: org.postgresql.Driver
+    # Supabase 대시보드에서 복사한 JDBC URL (log4jdbc 적용)
+    url: jdbc:log4jdbc:postgresql://aws-1-ap-south-1.pooler.supabase.com:6543/postgres
+    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
     username: postgres.zoisytihyzcbvbwghmzr
     password: "dlatl001!@#"
 
@@ -15,4 +15,17 @@ mybatis:
   mapper-locations: classpath:Mapper/**/*.xml # XML 매퍼 파일 위치 (대소문자 주의)
   configuration:
     map-underscore-to-camel-case: true          # DB의 snake_case를 Java의 camelCase로 자동 매핑
+    # log-impl: org.apache.ibatis.logging.stdout.StdOutImpl # log4jdbc 사용 시 중복 출력 방지를 위해 주석 처리
   type-aliases-package: com.ipmsprj.ipms        # 프로젝트 패키지 경로로 수정함
+
+# 로깅 설정
+logging:
+  level:
+    com.ipmsprj.ipms: DEBUG # 프로젝트 패키지 하위의 로그를 DEBUG 레벨로 설정
+    jdbc:
+      sqlonly: OFF     # SQL 문만 로그에 남기며, PreparedStatement일 경우 ?가 값으로 치환되어 출력됨
+      sqltiming: INFO  # SQL 문과 해당 SQL을 실행시키는데 수행된 시간 정보(milliseconds)를 포함
+      audit: OFF       # ResultSet을 제외한 모든 JDBC 호출 정보를 로그로 남김 (양이 많음)
+      resultset: OFF   # ResultSet을 포함한 모든 JDBC 호출 정보를 로그로 남김 (양이 매우 많음)
+      resultsettable: INFO # SQL 결과 조회된 데이터의 table을 로그로 남김
+      connection: OFF  # Connection open/close 이벤트를 로그로 남김
